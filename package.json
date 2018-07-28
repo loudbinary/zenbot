@@ -33,6 +33,7 @@
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
     "bitfinex-api-node": "^1.2.0",
+    "bitmex-realtime-api": "^0.3.0",
     "bitstamp": "^1.0.4",
     "bl": "^1.2.2",
     "bollinger-bands": "^3.0.1",
