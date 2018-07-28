@@ -824,6 +824,13 @@ Or to sell 10% of your BTC,
 zenbot sell gdax.BTC-USD --pct=10
 ```
 
+## Developers Notes
+### Directory Structure
+* ./commands - Each file in folder is enumerated and hooked into zenbot.js and exposed as a command line function.
+* ./lib - Technical analysis types can be found here
+* ./lib/engine.js - Primary atomic trading engine.
+* ./lib/helpers.js - Various TA and trading helpers, ex: crossover, crossunder,pivot 
+
 ## Chat with other Zenbot users
 
 [![zenbot logo](https://rawgit.com/deviavir/zenbot/master/assets/discord.png)](https://discord.gg/ZdAd2gP)
