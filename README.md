@@ -7,18 +7,44 @@
 
 ## Quick-start
 
-### Windows Requirements
-
+### Window Requirements
+ - [Install Microsoft Build Tools 2015](https://www.microsoft.com/en-us/download/details.aspx?id=48159)
+ - **IMPORTANT** - Add `C:\Program Files (x86)\MSBuild\14.0\Bin` to your users PATH environment variable
+ - Verify, close and reopen elevated x86 Powershell prompt, type 
+ -- ```(Get-ChildItem Env:Path).Value.Contains("C:\Program Files (x86)\MSBuild\14.0\Bin")```
+ **_Verify result is True_**
+ - [Install Chocolatey](https://chocolatey.org/docs/installation)
+ - ```@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"```
+ - ```SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"```
  - [Install node.js](https://nodejs.org/en/download/)
+ - ```cinst nodejs.install```
  - [Install Mongod](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
+ - ```choco install mongodb```
+  - **IMPORTANT** - Change node global compiler
+  - ```npm config set msvs_version 2015 --global```
  - [Install Microsoft Build Tool Requirements](https://github.com/nodejs/node-gyp)
+ - ```npm install -g node-gyp```
  - [Install Microsoft Build](https://github.com/felixrieseberg/windows-build-tools)
+ - ```npm install --global --production windows-build-tools```
+
  
- ```npm install -g node-gyp
-npm install --global --production windows-build-tools```
- 
+ ### Windows installation issues, and solutions
+ - cd <clone_folder>/node_modules/node-gyp
+ - ``` powershell.exe -ExecutionPolicy Unrestricted -Command "&{Add-Type -Path 'Find-VS2017.cs'; [VisualStudioConfiguration.Main]::Query(); }"```
+ - Observe output, and install any missing frameworks.
+ - Try npm install again, after removing forex-analytics directory.
+ - To fix SelectVisualStudioVersion, see [Source here](https://blogs.msdn.microsoft.com/vcblog/2017/03/06/finding-the-visual-c-compiler-tools-in-visual-studio-2017/)
+ - ```Install-Module VSSetup -Scope CurrentUser```
+ - ```Get-VSSetupInstance | Select-VSSetupInstance -Latest -Require Microsoft.VisualStudio.Component.VC.Tools.x86.x64```
+ - ```npm rm node-gyp```
+ - ```npm install node-gyp@3.6.0 --no-link --global```
+ - ```Delete node_modules/forex-analytics```
+ - ```RESTART ELEVATED POWERSHELL PROMPT X86```
+ - ```npm install```
+ - Hopefully no errors...
+
 ## Questions
-Please ask (programming) questions related to zenbot on stackoverflow. The tag is [zenbot](https://stackoverflow.com/questions/tagged/zenbot).
+- Open an [Github Issue](https://github.com/loudbinary/zenbot/issues)
 
 ## Description
 
@@ -32,9 +58,6 @@ Zenbot is a command-line cryptocurrency trading bot using Node.js and MongoDB. I
 - Configurable sell stops, buy stops, and (trailing) profit stops
 - Flexible sampling period and trade frequency - averages 1-2 trades/day with 1h period, 15-50/day with 5m period
 
-### Community
-
-Join the Zenbot community on [Reddit](https://reddit.com/r/zenbot)!
 
 ## Disclaimer
 
@@ -44,9 +67,6 @@ Join the Zenbot community on [Reddit](https://reddit.com/r/zenbot)!
 - Never leave the bot un-monitored for long periods of time. Zenbot doesn't know when to stop, so be prepared to stop it if too much loss occurs.
 - Often times the default trade parameters will underperform vs. a buy-hold strategy, so run some simulations and find the optimal parameters for your chosen exchange/pair before going "all-in".
 
-
- 
- 
 
 ### Step 1) Requirements
 
