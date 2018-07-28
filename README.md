@@ -7,7 +7,10 @@
 
 ## Window Requirements
  - [Install Microsoft Build Tools 2015](https://www.microsoft.com/en-us/download/details.aspx?id=48159)
- - Add `C:\Program Files (x86)\MSBuild\14.0\Bin` to your users PATH environment variable
+ - **IMPORTANT** - Add `C:\Program Files (x86)\MSBuild\14.0\Bin` to your users PATH environment variable
+ - Verify, close and reopen elevated x86 Powershell prompt, type 
+ -- ```(Get-ChildItem Env:Path).Value.Contains("C:\Program Files (x86)\MSBuild\14.0\Bin")```
+ **_Verify result is True_**
  - [Install Chocolatey](https://chocolatey.org/docs/installation)
  - ```@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"```
  - ```SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"```
@@ -15,12 +18,13 @@
  - ```cinst nodejs.install```
  - [Install Mongod](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
  - ```choco install mongodb```
+  - **IMPORTANT** - Change node global compiler
+  - ```npm config set msvs_version 2015 --global```
  - [Install Microsoft Build Tool Requirements](https://github.com/nodejs/node-gyp)
  - ```npm install -g node-gyp```
  - [Install Microsoft Build](https://github.com/felixrieseberg/windows-build-tools)
  - ```npm install --global --production windows-build-tools```
- - Change node global compiler
- - ```npm config set msvs_version 2015 --global```
+
  
  ## Windows installation issues, and solutions
  - cd <clone_folder>/node_modules/node-gyp
