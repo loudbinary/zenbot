@@ -5,26 +5,40 @@
 
 # Zenbot [![Build/Test Status](https://travis-ci.org/DeviaVir/zenbot.svg?branch=master)](https://travis-ci.org/DeviaVir/zenbot) [![Greenkeeper badge](https://badges.greenkeeper.io/DeviaVir/zenbot.svg)](https://greenkeeper.io/)
 
-## Current Status (UPDATE MAY 13th '18)
-
-Hey guys!
-
-It's been so long. I'm back, and I have a brand new bot in development. It's code-named **Bot18**, and it's kicking ass so far.
-
-I wrote a big Medium post detailing what's going on. I'm so excited to explore a brand new engine and the new strategies it makes possible.
-
-I will be developing solely on **Bot18** going forward and probably open-sourcing it soon once it stabilizes. Zenbot can live on, but I won't be updating it anymore. It's in the good hands of @DeviaVir who is the best maintainer I could ask for 👍)
-
-Medium post: https://medium.com/@carlos8f_11468/introducing-bot18-the-new-crypto-trading-bot-to-supersede-zenbot-and-unleash-the-zalgo-da8464b41e53
-
-Issue: https://github.com/DeviaVir/zenbot/issues/1589
-
-![bot18_icon](https://user-images.githubusercontent.com/106763/39973448-ead81bfc-56d4-11e8-9868-16b6d736fc97.png)
-
-~Carlos
+## Window Requirements
+ - [Install Microsoft Build Tools 2015](https://www.microsoft.com/en-us/download/details.aspx?id=48159)
+ - Add `C:\Program Files (x86)\MSBuild\14.0\Bin` to your users PATH environment variable
+ - [Install Chocolatey](https://chocolatey.org/docs/installation)
+ - ```@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"```
+ - ```SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"```
+ - [Install node.js](https://nodejs.org/en/download/)
+ - ```cinst nodejs.install```
+ - [Install Mongod](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
+ - ```choco install mongodb```
+ - [Install Microsoft Build Tool Requirements](https://github.com/nodejs/node-gyp)
+ - ```npm install -g node-gyp```
+ - [Install Microsoft Build](https://github.com/felixrieseberg/windows-build-tools)
+ - ```npm install --global --production windows-build-tools```
+ - Change node global compiler
+ - ```npm config set msvs_version 2015 --global```
+ 
+ ## Windows installation issues, and solutions
+ - cd <clone_folder>/node_modules/node-gyp
+ - ``` powershell.exe -ExecutionPolicy Unrestricted -Command "&{Add-Type -Path 'Find-VS2017.cs'; [VisualStudioConfiguration.Main]::Query(); }"```
+ - Observe output, and install any missing frameworks.
+ - Try npm install again, after removing forex-analytics directory.
+ - To fix SelectVisualStudioVersion, see [Source here](https://blogs.msdn.microsoft.com/vcblog/2017/03/06/finding-the-visual-c-compiler-tools-in-visual-studio-2017/)
+ - ```Install-Module VSSetup -Scope CurrentUser```
+ - ```Get-VSSetupInstance | Select-VSSetupInstance -Latest -Require Microsoft.VisualStudio.Component.VC.Tools.x86.x64```
+ - ```npm rm node-gyp```
+ - ```npm install node-gyp@3.6.0 --no-link --global```
+ - ```Delete node_modules/forex-analytics```
+ - ```RESTART ELEVATED POWERSHELL PROMPT X86```
+ - ```npm install```
+ - Hopefully no errors...
 
 ## Questions
-Please ask (programming) questions related to zenbot on stackoverflow. The tag is [zenbot](https://stackoverflow.com/questions/tagged/zenbot).
+- Open an [Github Issue](https://github.com/loudbinary/zenbot/issues)
 
 ## Description
 
@@ -38,9 +52,6 @@ Zenbot is a command-line cryptocurrency trading bot using Node.js and MongoDB. I
 - Configurable sell stops, buy stops, and (trailing) profit stops
 - Flexible sampling period and trade frequency - averages 1-2 trades/day with 1h period, 15-50/day with 5m period
 
-### Community
-
-Join the Zenbot community on [Reddit](https://reddit.com/r/zenbot)!
 
 ## Disclaimer
 
