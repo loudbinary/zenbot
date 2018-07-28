@@ -5,7 +5,9 @@
 
 # Zenbot [![Build/Test Status](https://travis-ci.org/DeviaVir/zenbot.svg?branch=master)](https://travis-ci.org/DeviaVir/zenbot) [![Greenkeeper badge](https://badges.greenkeeper.io/DeviaVir/zenbot.svg)](https://greenkeeper.io/)
 
-## Window Requirements
+## Quick-start
+
+### Window Requirements
  - [Install Microsoft Build Tools 2015](https://www.microsoft.com/en-us/download/details.aspx?id=48159)
  - **IMPORTANT** - Add `C:\Program Files (x86)\MSBuild\14.0\Bin` to your users PATH environment variable
  - Verify, close and reopen elevated x86 Powershell prompt, type 
@@ -26,7 +28,7 @@
  - ```npm install --global --production windows-build-tools```
 
  
- ## Windows installation issues, and solutions
+ ### Windows installation issues, and solutions
  - cd <clone_folder>/node_modules/node-gyp
  - ``` powershell.exe -ExecutionPolicy Unrestricted -Command "&{Add-Type -Path 'Find-VS2017.cs'; [VisualStudioConfiguration.Main]::Query(); }"```
  - Observe output, and install any missing frameworks.
@@ -65,7 +67,6 @@ Zenbot is a command-line cryptocurrency trading bot using Node.js and MongoDB. I
 - Never leave the bot un-monitored for long periods of time. Zenbot doesn't know when to stop, so be prepared to stop it if too much loss occurs.
 - Often times the default trade parameters will underperform vs. a buy-hold strategy, so run some simulations and find the optimal parameters for your chosen exchange/pair before going "all-in".
 
-## Quick-start
 
 ### Step 1) Requirements
 
