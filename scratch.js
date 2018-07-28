@@ -1,11 +1,11 @@
-const BitMEXClient = require('bitmex-realtime-api');
+const BitMEXClient = require('bitmex-realtime-api')
 // See 'options' reference below
-const client = new BitMEXClient({testnet: true});
+const client = new BitMEXClient({testnet: true})
 
-client.addStream('XBTUSD', 'trade', () => {});
+client.addStream('XBTUSD', 'trade', () => {})
 setTimeout(() => {
-  console.log('XBTUSD trades during the last few seconds:', client.getTable('trade').XBTUSD);
-}, 1000);
+  console.log('XBTUSD trades during the last few seconds:', client.getTable('trade').XBTUSD)
+}, 1000)
 
 /*
 client.on('initialize', () => {

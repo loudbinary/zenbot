@@ -7,7 +7,7 @@
 var minimist = require('minimist')
   , path = require('path')
   , n = require('numbro')
-  , BitMEXClient = require('bitmex-realtime-api');
+  , BitMEXClient = require('bitmex-realtime-api')
 
 module.exports = function bitmex (conf) {
   var s = {options: minimist(process.argv)}
@@ -743,7 +743,7 @@ module.exports = function bitmex (conf) {
   }
 
   function wsInitialize(event){
-    console.log('Bitmex client initialized', event.message);
+    console.log('Bitmex client initialized', event.message)
   }
 
 
@@ -762,7 +762,7 @@ module.exports = function bitmex (conf) {
 
 
       // See 'options' reference below
-      ws_client = new BitMEXClient({testnet: true});
+      ws_client = new BitMEXClient({testnet: true})
       ws_client
         .on('initialize', wsInitialize)
         .on('open', wsOpen)
