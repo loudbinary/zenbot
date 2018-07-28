@@ -5,24 +5,18 @@
 
 # Zenbot [![Build/Test Status](https://travis-ci.org/DeviaVir/zenbot.svg?branch=master)](https://travis-ci.org/DeviaVir/zenbot) [![Greenkeeper badge](https://badges.greenkeeper.io/DeviaVir/zenbot.svg)](https://greenkeeper.io/)
 
-## Current Status (UPDATE MAY 13th '18)
+## Quick-start
 
-Hey guys!
+### Windows Requirements
 
-It's been so long. I'm back, and I have a brand new bot in development. It's code-named **Bot18**, and it's kicking ass so far.
-
-I wrote a big Medium post detailing what's going on. I'm so excited to explore a brand new engine and the new strategies it makes possible.
-
-I will be developing solely on **Bot18** going forward and probably open-sourcing it soon once it stabilizes. Zenbot can live on, but I won't be updating it anymore. It's in the good hands of @DeviaVir who is the best maintainer I could ask for 👍)
-
-Medium post: https://medium.com/@carlos8f_11468/introducing-bot18-the-new-crypto-trading-bot-to-supersede-zenbot-and-unleash-the-zalgo-da8464b41e53
-
-Issue: https://github.com/DeviaVir/zenbot/issues/1589
-
-![bot18_icon](https://user-images.githubusercontent.com/106763/39973448-ead81bfc-56d4-11e8-9868-16b6d736fc97.png)
-
-~Carlos
-
+ - [Install node.js](https://nodejs.org/en/download/)
+ - [Install Mongod](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-windows/)
+ - [Install Microsoft Build Tool Requirements](https://github.com/nodejs/node-gyp)
+ - [Install Microsoft Build](https://github.com/felixrieseberg/windows-build-tools)
+ 
+ ```npm install -g node-gyp
+npm install --global --production windows-build-tools```
+ 
 ## Questions
 Please ask (programming) questions related to zenbot on stackoverflow. The tag is [zenbot](https://stackoverflow.com/questions/tagged/zenbot).
 
@@ -50,7 +44,9 @@ Join the Zenbot community on [Reddit](https://reddit.com/r/zenbot)!
 - Never leave the bot un-monitored for long periods of time. Zenbot doesn't know when to stop, so be prepared to stop it if too much loss occurs.
 - Often times the default trade parameters will underperform vs. a buy-hold strategy, so run some simulations and find the optimal parameters for your chosen exchange/pair before going "all-in".
 
-## Quick-start
+
+ 
+ 
 
 ### Step 1) Requirements
 
