@@ -51,7 +51,7 @@ c.binance.secret = 'YOUR-SECRET'
 
 c.bitmex = {};
 c.bitmex.key = 'YOUR-API-KEY'
-cibitmex.secret = 'YOUR-API-SECRET'
+c.bitmex.secret = 'YOUR-API-SECRET'
 
 // to enable Bittrex trading, enter your API credentials:
 c.bittrex = {}
