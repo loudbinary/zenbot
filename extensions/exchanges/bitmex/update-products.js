@@ -1,9 +1,11 @@
-#!/usr/bin/env node
 
 let ccxt = require('ccxt')
-let _ = require('lodash');
+let _ = require('lodash')
 new ccxt.bitmex().fetch_markets().then(function(markets) {
   var products = []
+  markets = markets.filter((m)=>{
+    return m.active === true
+  })
 
   markets.forEach(function (market) {
     var min_size = parseFloat(market.limits.price.min)
@@ -18,40 +20,17 @@ new ccxt.bitmex().fetch_markets().then(function(markets) {
       prec = 1
     }
     //var increment = '0.' + '0'.repeat(prec + product.price_precision - (product.pair.substring(3, 6).toUpperCase() == 'USD' ? 3 : 0)) + '1'
-    if (market.id === 'XBTUSD' || market.id === 'TRXU18'){
-       // console.log(market);
-    }
-
-    if (market.info.state === 'Open'){
-        //console.log(market.symbol);
-    }
-    //Determine if market item is perpetual contract.
-    var perpetual = false;
-
-    if (market.info.expiry === null){
-        perpetaul = true;
-    }
-    if (perpetual === false){
-        console.log(market.id,'is perpetual');
-    }
-    //If perpetual = false, then provide expiration date, otherwise null.
-    var product = {
+    console.log(min_size)
+    products.push({
       id: market.id,
       asset: market.base,
-      currency: market.info.settlCurrency,
+      currency: market.quote,
       min_size: market.limits.amount.min,
       max_size: market.limits.amount.max,
       increment: market.limits.price.min,
       asset_increment: min_size,
-      label: market.id,
-      perpetual: perpetual,
-      v2: true
-    }
-    product.instrument = {};
-    product.instrument.props = {};
-    product.instrument.props = market;
-
-    products.push(product);
+      label: market.id
+    })
   })
 
   var target = require('path').resolve(__dirname, 'products.json')
