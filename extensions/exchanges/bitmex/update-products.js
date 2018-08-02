@@ -2,11 +2,15 @@ let ccxt = require('ccxt')
 let _ = require('lodash')
 let math = require('mathjs')
 let contracts = ['XBTUSD','XBT7D_D95','XBT7D_U105','XBTU18','XBTX18', 'ADAU18','BCHU18', 'EOSU18', 'ETHU18', 'LTCU18', 'TRXU18', 'XRPU18']
+
 let getAssets = (markets,asset)=>{
   let results= _.filter(markets,(m)=>{
     return m.id == asset
   })
   return results
+}
+function convertExponent (exponent,precision) {
+  return Number(exponent).toFixed(precision).replace(/\.?0+$/,'')
 }
 new ccxt.bitmex().fetch_markets().then(function(instruments) {
   // Serperate out tradeable markets.
@@ -23,8 +27,9 @@ new ccxt.bitmex().fetch_markets().then(function(instruments) {
   markets.forEach(function (market) {
     console.log('Processing:', market.symbol)
     let asset = getAssets(instruments,market.info.referenceSymbol)
-    let asset_increment = asset[0].limits.price.min
+    let asset_increment = convertExponent(asset[0].limits.price.min,asset[0].precision.price)
     let min_size = math.format(market.limits.price.min,  {notation: 'fixed', precision: market.precision.price})
+    let instrument_increment = convertExponent(market.limits.price.min,market.precision.price)
     //Determine if market item is perpetual contract.
     var perpetual = market.swap === true
 
@@ -41,7 +46,7 @@ new ccxt.bitmex().fetch_markets().then(function(instruments) {
       //min_size: market.limits.amount.min,
       min_size: min_size,
       max_size: market.limits.amount.max,
-      increment: market.limits.price.min,
+      increment: instrument_increment,
       asset_increment: asset_increment,
       label: market.id,
       perpetual: perpetual,
