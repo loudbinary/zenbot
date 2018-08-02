@@ -59,6 +59,7 @@ module.exports = function bitmex (conf) {
     },
 
     getTrades: function (opts, cb) {
+
       var func_args = [].slice.call(arguments)
         , trades = []
         , maxTime = 0
