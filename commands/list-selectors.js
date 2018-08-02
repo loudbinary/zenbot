@@ -2,6 +2,20 @@
 var colors = require('colors'),
   fs = require('fs')
 
+String.prototype.SplitIntoParts = function(partLength)
+{
+  var list = []
+  if (this !== '' && partLength > 0)
+  {
+    for (var i = 0; i < this.length; i += partLength)
+    {
+      list.push(this.substr(i, Math.min(partLength, this.length)))
+    }
+  }
+  return list
+}
+
+
 module.exports = function (program) {
   program
     .command('list-selectors')
@@ -21,7 +35,18 @@ module.exports = function (program) {
           return 0
         })
         products.forEach(function (p) {
-          console.log('  ' + exchange.cyan + '.'.grey + p.asset.green + '-'.grey + p.currency.cyan + (p.label ? ('   (' + p.label + ')').grey : ''))
+          if (p.v2 === false || typeof  p.v2 === 'undefined'){
+            console.log('  ' + exchange.cyan + '.'.grey + p.asset.green + '-'.grey + p.currency.cyan + (p.label ? ('   (' + p.label + ')').grey : ''))
+          } else {
+            var cleaned = p.label.replace('_','')
+            var instrument = cleaned.SplitIntoParts(3)
+            var formatted = instrument.join('-')
+            if (formatted.lastIndexOf('-') === 3) {
+              console.log('  ' + exchange.cyan + '.'.grey + instrument[0] + '-'.grey + instrument[1] + (p.label ? ('   (' +  p.label + ')').grey : ''))
+            } else if (formatted.lastIndexOf('-') === 7){
+              console.log('  ' + exchange.cyan + '.'.grey + instrument[0] + '-'.grey + instrument[1] + '-'.grey + instrument[2] + (p.label ? ('   (' +  p.label + ')').grey : ''))
+            }
+          }
         })
       })
       process.exit()

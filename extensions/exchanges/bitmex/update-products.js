@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 let ccxt = require('ccxt')
 let _ = require('lodash')
 let math = require('mathjs')
@@ -11,7 +10,7 @@ let getAssets = (markets,asset)=>{
   return results
 }
 function convertExponent (exponent,precision) {
-  return Number(exponent).toFixed(precision).replace(/\.?0+$/,"")
+  return Number(exponent).toFixed(precision).replace(/\.?0+$/,'')
 }
 new ccxt.bitmex().fetch_markets().then(function(instruments) {
   // Serperate out tradeable markets.
@@ -28,7 +27,7 @@ new ccxt.bitmex().fetch_markets().then(function(instruments) {
   markets.forEach(function (market) {
     console.log('Processing:', market.symbol)
     let asset = getAssets(instruments,market.info.referenceSymbol)
-    let asset_increment = convertExponent(asset[0].limits.price.min,asset[0].precision.price);
+    let asset_increment = convertExponent(asset[0].limits.price.min,asset[0].precision.price)
     let min_size = math.format(market.limits.price.min,  {notation: 'fixed', precision: market.precision.price})
     let instrument_increment = convertExponent(market.limits.price.min,market.precision.price)
     //Determine if market item is perpetual contract.
