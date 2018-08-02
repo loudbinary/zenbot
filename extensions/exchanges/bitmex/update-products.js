@@ -4,7 +4,7 @@ let math = require('mathjs')
 let contracts = ['XBTUSD','XBT7D_D95','XBT7D_U105','XBTU18','XBTX18', 'ADAU18','BCHU18', 'EOSU18', 'ETHU18', 'LTCU18', 'TRXU18', 'XRPU18']
 let getAssets = (markets,asset)=>{
   let results= _.filter(markets,(m)=>{
-    return m.symbol == asset
+    return m.id == asset
   })
   return results
 }
@@ -13,7 +13,7 @@ new ccxt.bitmex().fetch_markets().then(function(instruments) {
   let markets = []
   _.forEach(instruments, i =>{
     _.forEach(contracts,c =>{
-      if (c === i.symbol) {
+      if (c === i.id) {
         markets.push(i)
       }
     })
@@ -21,23 +21,14 @@ new ccxt.bitmex().fetch_markets().then(function(instruments) {
   var products = []
 
   markets.forEach(function (market) {
-    let asset = getAssets(markets,'.B' + market.info.quoteCurrency) //.B = Base .BXBT
+    console.log('Processing:', market.symbol)
+    let asset = getAssets(instruments,market.info.referenceSymbol)
     let asset_increment = asset[0].limits.price.min
     let min_size = math.format(market.limits.price.min,  {notation: 'fixed', precision: market.precision.price})
-    if (market.id === 'XBTUSD' || market.id === 'TRXU18'){
-      // console.log(market);
-    }
-
-    if (market.info.state === 'Open'){
-      //console.log(market.symbol);
-    }
     //Determine if market item is perpetual contract.
-    var perpetual = false
+    var perpetual = market.swap === true
 
-    if (market.info.expiry === null){
-      perpetual = true
-    }
-    if (perpetual === false){
+    if (perpetual === true){
       console.log(market.id,'is perpetual')
     }
 
