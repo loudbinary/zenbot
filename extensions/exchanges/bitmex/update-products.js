@@ -1,36 +1,66 @@
-
 let ccxt = require('ccxt')
 let _ = require('lodash')
-new ccxt.bitmex().fetch_markets().then(function(markets) {
-  var products = []
-  markets = markets.filter((m)=>{
-    return m.active === true
+let math = require('mathjs')
+let contracts = ['XBTUSD','XBT7D_D95','XBT7D_U105','XBTU18','XBTX18', 'ADAU18','BCHU18', 'EOSU18', 'ETHU18', 'LTCU18', 'TRXU18', 'XRPU18']
+let getAssets = (markets,asset)=>{
+  let results= _.filter(markets,(m)=>{
+    return m.symbol == asset
   })
+  return results
+}
+new ccxt.bitmex().fetch_markets().then(function(instruments) {
+  // Serperate out tradeable markets.
+  let markets = []
+  _.forEach(instruments, i =>{
+    _.forEach(contracts,c =>{
+      if (c === i.symbol) {
+        markets.push(i)
+      }
+    })
+  })
+  var products = []
 
   markets.forEach(function (market) {
-    var min_size = parseFloat(market.limits.price.min)
-    var prec = 0
-    if (min_size > 130 ) {
-      prec = 4
-    } else if (min_size > 30) {
-      prec = 3
-    } else if (min_size > 1) {
-      prec = 2
-    } else if (min_size > 0.1) {
-      prec = 1
+    let asset = getAssets(markets,'.B' + market.info.quoteCurrency) //.B = Base .BXBT
+    let asset_increment = asset[0].limits.price.min
+    let min_size = math.format(market.limits.price.min,  {notation: 'fixed', precision: market.precision.price})
+    if (market.id === 'XBTUSD' || market.id === 'TRXU18'){
+      // console.log(market);
     }
-    //var increment = '0.' + '0'.repeat(prec + product.price_precision - (product.pair.substring(3, 6).toUpperCase() == 'USD' ? 3 : 0)) + '1'
-    console.log(min_size)
-    products.push({
+
+    if (market.info.state === 'Open'){
+      //console.log(market.symbol);
+    }
+    //Determine if market item is perpetual contract.
+    var perpetual = false
+
+    if (market.info.expiry === null){
+      perpetual = true
+    }
+    if (perpetual === false){
+      console.log(market.id,'is perpetual')
+    }
+
+
+    //If perpetual = false, then provide expiration date, otherwise null.
+    var product = {
       id: market.id,
       asset: market.base,
-      currency: market.quote,
-      min_size: market.limits.amount.min,
+      currency: market.info.quoteCurrency,
+      //min_size: market.limits.amount.min,
+      min_size: min_size,
       max_size: market.limits.amount.max,
       increment: market.limits.price.min,
-      asset_increment: min_size,
-      label: market.id
-    })
+      asset_increment: asset_increment,
+      label: market.id,
+      perpetual: perpetual,
+      v2: true
+    }
+    product.instrument = {}
+    product.instrument.props = {}
+    product.instrument.props = market
+
+    products.push(product)
   })
 
   var target = require('path').resolve(__dirname, 'products.json')
