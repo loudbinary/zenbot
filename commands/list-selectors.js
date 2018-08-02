@@ -46,9 +46,7 @@ module.exports = function (program) {
             } else if (formatted.lastIndexOf('-') === 7){
               console.log('  ' + exchange.cyan + '.'.grey + instrument[0] + '-'.grey + instrument[1] + '-'.grey + instrument[2] + (p.label ? ('   (' +  p.label + ')').grey : ''))
             }
-
           }
-
         })
       })
       process.exit()
