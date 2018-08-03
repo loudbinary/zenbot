@@ -42,6 +42,8 @@ new ccxt.bitmex().fetch_markets().then(function(instruments) {
     var product = {
       id: market.id,
       asset: market.base,
+      underlying: market.info.underlying,
+      quoteCurrency: market.info.quoteCurrency,
       currency: market.info.quoteCurrency,
       //min_size: market.limits.amount.min,
       min_size: min_size,
