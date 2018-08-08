@@ -33,7 +33,7 @@ module.exports = function (program, conf) {
             return p.id === newNormalized
           })
 
-          let price_index = '.' + product[0].underlying + product[0].quoteCurrency
+          let price_index = product[0].info.referenceSymbol
           console.log('Price index:',price_index)
           selector.product_id = price_index
         } else if (selector.normalized.length <= 14) {
@@ -45,7 +45,7 @@ module.exports = function (program, conf) {
             return p.id === newNormalized
           })
           //let price_index = newNormalized
-          let price_index = '.' + product[0].underlying + product[0].quoteCurrency
+          let price_index = product[0].info.referenceSymbol
           console.log('Price index:',price_index)
           selector.product_id = price_index
         }
