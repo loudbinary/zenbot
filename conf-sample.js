@@ -47,6 +47,12 @@ c.binance = {}
 c.binance.key = 'YOUR-API-KEY'
 c.binance.secret = 'YOUR-SECRET'
 
+// to enable Bitmex trading, enter your API Credentials:
+
+c.bitmex = {}
+c.bitmex.key = 'YOUR-API-KEY'
+c.bitmex.secret = 'YOUR-SECRET'
+
 // to enable Bittrex trading, enter your API credentials:
 c.bittrex = {}
 c.bittrex.key = 'YOUR-API-KEY'
@@ -129,9 +135,9 @@ c.sell_pct = 99
 // ms to adjust non-filled order after
 c.order_adjust_time = 5000
 // avoid selling at a loss below this pct set to 0 to ensure selling at a higher price...
-c.max_sell_loss_pct = 25
+c.max_sell_loss_pct = 99
 // avoid buying at a loss above this pct set to 0 to ensure buying at a lower price...
-c.max_buy_loss_pct = 25
+c.max_buy_loss_pct = 99
 // ms to poll order status
 c.order_poll_time = 5000
 // ms to wait for settlement (after an order cancel)
@@ -252,4 +258,4 @@ c.output  = {}
 c.output.api = {}
 c.output.api.on = true
 c.output.api.ip = '0.0.0.0' // IPv4 or IPv6 address to listen on, uses all available interfaces if omitted
-c.output.api.port = 0 // 0 = random port
+c.output.api.port = 0 // 0 = random port, set to 17365 if you use docker

@@ -2,7 +2,7 @@ var tb = require('timebucket')
   , crypto = require('crypto')
   , objectifySelector = require('../lib/objectify-selector')
   , collectionService = require('../lib/services/collection-service')
-
+  , _ = require('lodash')
 module.exports = function (program, conf) {
   program
     .command('backfill [selector]')
@@ -12,6 +12,45 @@ module.exports = function (program, conf) {
     .action(function (selector, cmd) {
       selector = objectifySelector(selector || conf.selector)
       var exchange = require(`../extensions/exchanges/${selector.exchange_id}/exchange`)(conf)
+      //TODO MYGOD MOVE THIS CRAP TO SOMEONE MORE INTELLGENT, AND NOT HACK UP MODULE.
+      let products
+      // If exchange contains v2 products, we must detect odd instrument names; ie Bitmex.
+      let isv2 = _.every(exchange.getProducts(),(e)=>{
+        products  = exchange.getProducts()
+        if (e.v2 === true) return true
+      })
+
+      if (isv2){
+        // I really hate to put this code here, breaks 'backfill' seperation. SHould be a normalizedv2, but not tonight.
+        if (selector.normalized.length > 14){
+          //Remove all slashes, slice(4)
+          let cleaned = selector.normalized.replace(selector.exchange_id,'').replace('-','').replace('.','').replace('-','')
+
+
+          let cleanedArray = cleaned.SplitIntoParts(5)
+          let newNormalized = cleanedArray.join('_')
+          let product = _.filter(products,(p)=>{
+            return p.id === newNormalized
+          })
+
+          let price_index = product[0].info.referenceSymbol
+          console.log('Price index:',price_index)
+          selector.product_id = price_index
+        } else if (selector.normalized.length <= 14) {
+          //Remove all slashes, slice(4)
+          let cleaned = selector.normalized.replace(selector.exchange_id,'').replace('-','').replace('.','')
+          let cleanedArray = cleaned.SplitIntoParts(3)
+          let newNormalized = cleanedArray.join('')
+          let product = _.filter(products,(p)=>{
+            return p.id === newNormalized
+          })
+          //let price_index = newNormalized
+          let price_index = product[0].info.referenceSymbol
+          console.log('Price index:',price_index)
+          selector.product_id = price_index
+        }
+      }
+
       if (!exchange) {
         console.error('cannot backfill ' + selector.normalized + ': exchange not implemented')
         process.exit(1)

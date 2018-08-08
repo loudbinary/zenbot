@@ -4,22 +4,22 @@ const ccxt = require('ccxt')
   , colors = require('colors')
   , _ = require('lodash')
 
-module.exports = function bittrex (conf) {
+module.exports = function bitmex (conf) {
   var public_client, authed_client
   let firstRun = true
   let allowGetMarketCall = true
 
   function publicClient () {
-    if (!public_client) public_client = new ccxt.binance({ 'apiKey': '', 'secret': '' })
+    if (!public_client) public_client = new ccxt.bitmex({ 'apiKey': '', 'secret': '' })
     return public_client
   }
 
   function authedClient () {
     if (!authed_client) {
-      if (!conf.binance || !conf.binance.key || conf.binance.key === 'YOUR-API-KEY') {
-        throw new Error('please configure your Binance credentials in ' + path.resolve(__dirname, 'conf.js'))
+      if (!conf.bitmex || !conf.bitmex.key || conf.bitmex.key === 'YOUR-API-KEY') {
+        throw new Error('please configure your Bitmex credentials in ' + path.resolve(__dirname, 'conf.js'))
       }
-      authed_client = new ccxt.binance({ 'apiKey': conf.binance.key, 'secret': conf.binance.secret })
+      authed_client = new ccxt.bitmex({ 'apiKey': conf.bitmex.key, 'secret': conf.bitmex.secret })
     }
     return authed_client
   }
@@ -31,13 +31,12 @@ module.exports = function bittrex (conf) {
    * @returns {string}
    */
   function joinProduct(product_id) {
-    let split = product_id.split('-')
-    return split[0] + '/' + split[1]
+    return product_id.replace('-','')
   }
 
   function retry (method, args, err) {
     if (method !== 'getTrades') {
-      console.error(('\nBinance API is down! unable to call ' + method + ', retrying in 20s').red)
+      console.error(('\nBitmex API is down! unable to call ' + method + ', retrying in 20s').red)
       if (err) console.error(err)
       console.error(args.slice(0, -1))
     }
@@ -49,7 +48,7 @@ module.exports = function bittrex (conf) {
   var orders = {}
 
   var exchange = {
-    name: 'binance',
+    name: 'bitmex',
     historyScan: 'forward',
     historyScanUsesTime: true,
     makerFee: 0.1,
@@ -60,6 +59,7 @@ module.exports = function bittrex (conf) {
     },
 
     getTrades: function (opts, cb) {
+
       var func_args = [].slice.call(arguments)
         , trades = []
         , maxTime = 0
