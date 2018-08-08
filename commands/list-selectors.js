@@ -38,7 +38,8 @@ module.exports = function (program) {
           if (p.v2 === false || typeof  p.v2 === 'undefined'){
             console.log('  ' + exchange.cyan + '.'.grey + p.asset.green + '-'.grey + p.currency.cyan + (p.label ? ('   (' + p.label + ')').grey : ''))
           } else {
-            var cleaned = p.label.replace('_','')
+            var cleaned = p.symbol.replace('_','').replace('/','')
+
             var instrument = cleaned.SplitIntoParts(3)
             var formatted = instrument.join('-')
             if (formatted.lastIndexOf('-') === 3) {
