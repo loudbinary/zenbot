@@ -19,6 +19,8 @@ new ccxt.bitmex().fetch_markets().then(function(instruments) {
   markets.forEach(function (market) {
     var product = market
     product.v2 = true
+    product.asset = market.info.rootSymbol
+    product.currency = market.info.quoteCurrency
     products.push(product)
   })
 
@@ -27,3 +29,4 @@ new ccxt.bitmex().fetch_markets().then(function(instruments) {
   console.log('wrote', target)
   process.exit()
 })
+

@@ -18,6 +18,8 @@ new ccxt.bitmex().fetch_markets().then(function(instruments) {
   markets.forEach(function (market) {
     var product = market
     product.v2 = true
+    product.asset = market.info.rootSymbol
+    product.currency = market.info.quoteCurrency
     products.push(product)
   })
 
