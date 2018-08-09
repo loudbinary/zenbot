@@ -20,6 +20,7 @@ new ccxt.bitmex().fetch_markets().then(function(instruments) {
     product.v2 = true
     product.asset = market.info.rootSymbol
     product.currency = market.info.quoteCurrency
+    product.symbol = product.symbol.replace('/','')
     products.push(product)
   })
 
